@@ -255,22 +255,14 @@ namespace Aiv.Math
 			Matrix4 m4;
 			m4.m = new float[16];
 
-			float x = 2 * near / (right - left);
-			float y = 2 * near / (top - bottom);
+			m4.m11 = 2 * near / (right - left);
+			m4.m13 = (right + left) / (right - left);
 
-			float a = (right + left) / (right - left);
-			float b = (top + bottom) / (top - bottom);
-			float c = -(far + near) / (far - near);
-			float d = -2 * far * near / (far - near);
+			m4.m22 = 2 * near / (top - bottom);
+			m4.m23 = (top + bottom) / (top - bottom);;
 
-			m4.m11 = x;
-			m4.m13 = a;
-
-			m4.m22 = y;
-			m4.m23 = b;
-
-			m4.m33 = c;
-			m4.m34 = d;
+			m4.m33 = - ((far + near) / (far - near));
+			m4.m34 = - ((2 * far * near) / (far-near));
 
 			m4.m43 = -1;
 
@@ -280,11 +272,9 @@ namespace Aiv.Math
 		public static Matrix4 Perspective (float fov, float aspect, float near, float far)
 		{
 			float ymax = near * (float)System.Math.Tan (fov);
-			float ymin = -ymax;
-			float xmin = ymin * aspect;
 			float xmax = ymax * aspect;
 
-			return Matrix4.Frustum (xmin, xmax, ymin, ymax, near, far);
+			return Matrix4.Frustum (-xmax, xmax, -ymax, ymax, near, far);
 		}
 	}
 }
