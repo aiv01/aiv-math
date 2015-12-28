@@ -46,6 +46,16 @@ namespace Aiv.Math
 			return new Vector2 (this.x, this.y);
 		}
 
+		public float SquareLength ()
+		{
+			return this.x * this.x + this.y * this.y;
+		}
+
+		public float Length ()
+		{
+			return (float) System.Math.Sqrt (this.SquareLength ());
+		}
+
 		public static Vector2 operator+ (Vector2 a, Vector2 b)
 		{
 			a.x += b.x;
