@@ -115,11 +115,12 @@ namespace tests
 		public void TestCamera ()
 		{
 			Vector3 v = new Vector3 (0, 1, 0);
-			Matrix4 m = Matrix4.LookAt (new Vector3 (0, 1, -10), v, Vector3.up);
+			Matrix4 m = Matrix4.LookAt (new Vector3 (0, 1, 10), v, Vector3.up);
+			Console.WriteLine (m);
 			Vector3 vr = m * v;
 			Assert.AreEqual (vr.x, 0);
 			Assert.AreEqual (vr.y, 0);
-			Assert.AreEqual (vr.z, 10);
+			Assert.AreEqual (vr.z, -10);
 		}
 	}
 }

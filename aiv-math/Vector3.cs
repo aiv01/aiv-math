@@ -34,7 +34,7 @@ namespace Aiv.Math
 
 		public float Length ()
 		{
-			return (float) System.Math.Sqrt (this.SquareLength ());
+			return (float)System.Math.Sqrt (this.SquareLength ());
 		}
 
 		public static Vector3 Cross (Vector3 v0, Vector3 v1)
@@ -118,6 +118,12 @@ namespace Aiv.Math
 			a.y /= b;
 			a.z /= b;
 			return a;
+		}
+
+
+		public static float Dot (Vector3 a, Vector3 b)
+		{
+			return a.x * b.x + a.y * b.y + a.z * b.z;
 		}
 	}
 }

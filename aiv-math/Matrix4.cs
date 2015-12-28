@@ -215,7 +215,7 @@ namespace Aiv.Math
 		public static Matrix4 LookAt (Vector3 eye, Vector3 target, Vector3 up)
 		{
 			// first of all find the forward vector (normalized, as it is a direction)
-			Vector3 fwd = (target - eye).Normalize ();
+			Vector3 fwd = (eye - target).Normalize ();
 
 			// find the side vector (normalized)
 			Vector3 side = Vector3.Cross (fwd, up).Normalize ();
@@ -236,45 +236,39 @@ namespace Aiv.Math
 			m4.m32 = up.z;
 			m4.m42 = 0;
 
-			m4.m13 = -fwd.x;
-			m4.m23 = -fwd.y;
-			m4.m33 = -fwd.z;
+			m4.m13 = fwd.x;
+			m4.m23 = fwd.y;
+			m4.m33 = fwd.z;
 			m4.m43 = 0;
 
-			m4.m14 = -eye.x;
-			m4.m24 = -eye.y;
-			m4.m34 = -eye.z;
+			m4.m14 = -Vector3.Dot(side, eye);
+			m4.m24 = -Vector3.Dot(up, eye);
+			m4.m34 = -Vector3.Dot(fwd, eye);
 			m4.m44 = 1;
 
 			return m4;
 
 		}
 
-		public static Matrix4 Frustum (float left, float right, float top, float bottom, float near, float far)
+
+		public static Matrix4 Perspective (float fov, float aspect, float near, float far)
 		{
 			Matrix4 m4;
 			m4.m = new float[16];
 
-			m4.m11 = 2 * near / (right - left);
-			m4.m13 = (right + left) / (right - left);
+			float yscale = 1f / (float)System.Math.Tan (fov / 2);
+			float xscale = yscale / aspect;
 
-			m4.m22 = 2 * near / (top - bottom);
-			m4.m23 = (top + bottom) / (top - bottom);;
+			m4.m11 = xscale;
 
-			m4.m33 = - ((far + near) / (far - near));
-			m4.m34 = - ((2 * far * near) / (far-near));
+			m4.m22 = yscale;
 
-			m4.m43 = -1;
+			m4.m33 = far / (near - far);
+			m4.m34 = -1;
+
+			m4.m43 = near * far / (near - far);
 
 			return m4;
-		}
-
-		public static Matrix4 Perspective (float fov, float aspect, float near, float far)
-		{
-			float ymax = near * (float)System.Math.Tan (fov);
-			float xmax = ymax * aspect;
-
-			return Matrix4.Frustum (-xmax, xmax, -ymax, ymax, near, far);
 		}
 	}
 }
