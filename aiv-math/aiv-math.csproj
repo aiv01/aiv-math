@@ -39,6 +39,7 @@
     <Compile Include="Vector3.cs" />
     <Compile Include="Vector4.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Matrix2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
