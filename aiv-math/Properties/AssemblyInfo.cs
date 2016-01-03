@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle ("aiv-math")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("AIV linear algebra math structures, classes and utilities for C#")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
+[assembly: AssemblyCompany ("20Tab S.r.l., Aiv S.r.l.")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("roberta")]
+[assembly: AssemblyCopyright ("20Tab S.r.l., Aiv S.r.l.")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
