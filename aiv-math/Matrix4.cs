@@ -218,32 +218,32 @@ namespace Aiv.Math
 			Vector3 fwd = (eye - target).Normalize ();
 
 			// find the side vector (normalized)
-			Vector3 side = Vector3.Cross (fwd, up).Normalize ();
+			Vector3 side = Vector3.Cross (up, fwd).Normalize ();
 
 			// and recompute the up vector (no need of normalization as both fwd and right are normalized)
-			up = Vector3.Cross (side, fwd);
+			up = Vector3.Cross (fwd, side);
 
 			Matrix4 m4;
 			m4.m = new float[16];
 
 			m4.m11 = side.x;
-			m4.m21 = side.y;
-			m4.m31 = side.z;
-			m4.m41 = 0;
-
 			m4.m12 = up.x;
-			m4.m22 = up.y;
-			m4.m32 = up.z;
-			m4.m42 = 0;
-
 			m4.m13 = fwd.x;
-			m4.m23 = fwd.y;
-			m4.m33 = fwd.z;
-			m4.m43 = 0;
+			m4.m14 = -Vector3.Dot (side, eye);
 
-			m4.m14 = -Vector3.Dot(side, eye);
-			m4.m24 = -Vector3.Dot(up, eye);
-			m4.m34 = -Vector3.Dot(fwd, eye);
+			m4.m21 = side.y;
+			m4.m22 = up.y;
+			m4.m23 = fwd.y;
+			m4.m24 = -Vector3.Dot (up, eye);
+
+			m4.m31 = side.z;
+			m4.m32 = up.z;
+			m4.m33 = fwd.z;
+			m4.m34 = -Vector3.Dot (fwd, eye);
+
+			m4.m41 = 0;
+			m4.m42 = 0;
+			m4.m43 = 0;
 			m4.m44 = 1;
 
 			return m4;
@@ -256,17 +256,21 @@ namespace Aiv.Math
 			Matrix4 m4;
 			m4.m = new float[16];
 
-			float yscale = 1f / (float)System.Math.Tan (fov / 2);
-			float xscale = yscale / aspect;
+			float top = near * (float)System.Math.Tan (fov / 2);
+			float bottom = -top;
+			float left = bottom * aspect;
+			float right = top * aspect;
 
-			m4.m11 = xscale;
+			m4.m11 = (2f * near) / (right - left);
 
-			m4.m22 = yscale;
+			m4.m22 = (2f * near) / (top - bottom);
 
-			m4.m33 = far / (near - far);
+			m4.m31 = (right + left) / (right - left);
+			m4.m32 = (top + bottom) / (top - bottom);
+			m4.m33 = -(far + near) / (far - near);
 			m4.m34 = -1;
 
-			m4.m43 = near * far / (near - far);
+			m4.m43 = -(2f * far * near) / (far - near);
 
 			return m4;
 		}

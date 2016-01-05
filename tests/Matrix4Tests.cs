@@ -54,8 +54,6 @@ namespace tests
 			Vector3 v = new Vector3 (2, 3, 4);
 			Matrix4 ms = Matrix4.Scale (2, 2, 2);
 			Matrix4 mt = Matrix4.Translate (10, 5, 1);
-			Matrix4 mr = mt * ms;
-			Console.WriteLine (mr);
 			Vector4 vr = mt * ms * v;
 			Assert.AreEqual (vr.x, 14);
 			Assert.AreEqual (vr.y, 11);
